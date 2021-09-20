@@ -12,7 +12,7 @@ public class Pipeline<C, I, O> {
         return new Pipeline<>(input -> handler.process(this.currentHandler.process(input)));
     }
 
-    public O execute() throws PipelineException {
-        return currentHandler.process(null);
+    public void execute() throws PipelineException {
+        currentHandler.process(null);
     }
 }
