@@ -1,12 +1,18 @@
 package cl.entel.eai.pipeline.configuration;
 
-public abstract class DAOConfiguration<D> {
-    private D dao;
-    private int chunkSize;
-    private long offset;
-    private long totalRecords;
+import cl.entel.eai.constants.PipelineError;
+import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.PipelineException;
+
+public abstract class DAOConfiguration<D> implements Configuration{
+    protected D dao;
+    protected int chunkSize;
+    protected long offset;
+    protected long totalRecords;
 
     public DAOConfiguration() { }
+
+    public abstract void init() throws PipelineException;
 
     public int getChunkSize() {
         return chunkSize;
@@ -14,6 +20,10 @@ public abstract class DAOConfiguration<D> {
 
     public void setChunkSize(int chunkSize) {
         this.chunkSize = chunkSize;
+    }
+
+    public void incrementOffset(long offset) {
+        this.offset += offset;
     }
 
     public void setOffset(long offset) {
@@ -32,12 +42,15 @@ public abstract class DAOConfiguration<D> {
         return totalRecords;
     }
 
-
     public D getDao() {
         return dao;
     }
 
     public void setDao(D dao) {
         this.dao = dao;
+    }
+
+    public void computeChuckSize() {
+        this.setChunkSize((offset + chunkSize) > totalRecords ? (int)(totalRecords - offset) : chunkSize);
     }
 }
