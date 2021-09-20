@@ -9,14 +9,24 @@ public abstract class DAOPipelineRunner<D, O> extends PipelineRunner<DAOConfigur
 
     @Override
     public void run() throws PipelineException{
+        this.init();
+
         long offset = this.getReader().getConfiguration().getOffset();
-        long chunkSize = this.getReader().getConfiguration().getChunkSize();
         long total = this.getReader().getConfiguration().getTotalRecords();
 
-        do {
+        while (offset < total){
+            this.getReader().getConfiguration().computeChuckSize();
+            long chunkSize = this.getReader().getConfiguration().getChunkSize();
+
             this.executePipeline();
+
             offset += chunkSize;
-        } while (offset < total);
+            this.getReader().getConfiguration().incrementOffset(chunkSize);
+        }
+    }
+
+    private long computeChuckSize(long offset, long chunkSize, long total) {
+        return (offset + chunkSize) >= total ? total - offset : chunkSize;
     }
 
     public abstract void executePipeline() throws PipelineException;
