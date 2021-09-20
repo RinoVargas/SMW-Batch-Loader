@@ -7,7 +7,6 @@ import cl.entel.eai.model.Hub;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 public class HubDAO {
 
     @Autowired
@@ -107,7 +105,7 @@ public class HubDAO {
                     statement.addBatch();
                 }
 
-                statement.executeLargeBatch();
+                statement.executeBatch();
 
             } else {
                 throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
