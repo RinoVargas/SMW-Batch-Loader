@@ -6,22 +6,13 @@ import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class HubDAOReader extends DAOReader<HubDAO, List<Hub>>{
 
-    @Autowired
-    private DAOConfiguration<HubDAO> configuration;
-
-    public HubDAOReader(){ }
-
-    @Override
-    protected void init() {
-        this.setConfiguration(configuration);
+    public HubDAOReader(DAOConfiguration<HubDAO> configuration){
+        this.configuration = configuration;
     }
 
     @Override

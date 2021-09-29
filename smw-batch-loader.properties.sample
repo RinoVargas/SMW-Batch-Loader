@@ -1,7 +1,7 @@
 # IMGIS Database Credentials
-imgis.db.url=
-imgis.db.username=
-imgis.db.password=
+imgis.db.url=jdbc:oracle:thin:@localhost:1521:orcl
+imgis.db.username=development
+imgis.db.password=development123456
 
 # Batch Loader Properties
-batch.loader.hub.chunksize=
+batch.loader.hub.chunksize=2000

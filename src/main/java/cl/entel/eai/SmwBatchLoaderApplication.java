@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 
-@SpringBootApplication
 @PropertySource("file:${environment}/smw-batch-loader.properties")
+@SpringBootApplication
 public class SmwBatchLoaderApplication implements CommandLineRunner {
 
 	@Autowired

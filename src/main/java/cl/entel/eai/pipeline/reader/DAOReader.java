@@ -8,4 +8,7 @@ public abstract class DAOReader<D, O> extends Reader<DAOConfiguration<D>, O> {
     DAOReader() { }
 
     public abstract O process(Void input) throws PipelineException;
+
+    @Override
+    public void init() throws PipelineException { }
 }

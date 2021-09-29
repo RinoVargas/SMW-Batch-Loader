@@ -9,7 +9,7 @@ public abstract class Reader<C, O> implements Handler<C, Void, O> {
 
     Reader() { }
 
-    protected abstract void init();
+    public abstract void init() throws PipelineException;
 
     public C getConfiguration() {
         return configuration;
