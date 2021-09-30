@@ -3,7 +3,7 @@ package cl.entel.eai.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component("connector")
+@Component("imgisConnector")
 public class IMGISDatabaseConnector extends DatabaseConnector{
 
     public IMGISDatabaseConnector(
