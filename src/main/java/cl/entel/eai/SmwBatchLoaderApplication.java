@@ -29,8 +29,16 @@ public class SmwBatchLoaderApplication implements CommandLineRunner {
 		HubDAOPipelineRunner hubDAOPipelineRunner = context.getBean(HubDAOPipelineRunner.class);
 		hubDAOPipelineRunner.run();
 
+		// Terminal Enclosure Runner
+		TerminalEnclosureDAOPipelineRunner terminalEnclosureDAOPipelineRunner = context.getBean(TerminalEnclosureDAOPipelineRunner.class);
+		terminalEnclosureDAOPipelineRunner.run();
+
 		// Building Runner
 		BuildingDAOPipelineRunner buildingDAOPipelineRunner = context.getBean(BuildingDAOPipelineRunner.class);
 		buildingDAOPipelineRunner.run();
+
+		// XygoAddress Runner
+		XygoAddressDAOPipelineRunner xygoAddressDAOPipelineRunner = context.getBean(XygoAddressDAOPipelineRunner.class);
+		xygoAddressDAOPipelineRunner.run();
 	}
 }
