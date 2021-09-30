@@ -17,37 +17,33 @@ import java.util.List;
 public class HubDAO {
 
     @Autowired
-    private IMGISDatabaseConnector connector;
+    private IMGISDatabaseConnector imgisConnector;
 
     public List<Hub> getHubChuck (long offset, int chunkSize) throws IMGISException {
         PreparedStatement statement;
         ResultSet resultSet;
         List<Hub> result = new ArrayList<>();
-
+        String sql;
         try {
-            if (this.connector.connect()) {
-                String sql = "SELECT ID, X_COORD_EG, Y_COORD_EG " +
-                        "FROM MIT_HUB " +
-                        "OFFSET ? ROWS " +
-                        "FETCH NEXT ? ROWS ONLY";
+            this.imgisConnector.connect();
+            sql = "SELECT ID, X_COORD_EG, Y_COORD_EG " +
+                    "FROM MIT_HUB " +
+                    "OFFSET ? ROWS " +
+                    "FETCH NEXT ? ROWS ONLY";
 
-                statement = this.connector.getConnection().prepareStatement(sql);
-                statement.setLong(1, offset);
-                statement.setInt(2, chunkSize);
-                resultSet = statement.executeQuery();
+            statement = this.imgisConnector.getConnection().prepareStatement(sql);
+            statement.setLong(1, offset);
+            statement.setInt(2, chunkSize);
+            resultSet = statement.executeQuery();
 
-                while (resultSet.next()) {
-                    Hub hub = new Hub();
+            while (resultSet.next()) {
+                Hub hub = new Hub();
 
-                    hub.setId(resultSet.getInt(1));
-                    hub.setXCoordEg(resultSet.getString(2));
-                    hub.setYCoordEg(resultSet.getString(3));
+                hub.setId(resultSet.getInt(1));
+                hub.setXCoordEg(resultSet.getString(2));
+                hub.setYCoordEg(resultSet.getString(3));
 
-                    result.add(hub);
-                }
-
-            } else {
-                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
+                result.add(hub);
             }
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
@@ -63,21 +59,18 @@ public class HubDAO {
         PreparedStatement statement;
         ResultSet resultSet;
         Integer result = null;
+        String sql;
 
         try {
-            if (this.connector.connect()) {
-                String sql = "SELECT COUNT(*) " +
-                        "FROM MIT_HUB ";
+            this.imgisConnector.connect();
+            sql = "SELECT COUNT(*) " +
+                    "FROM MIT_HUB ";
 
-                statement = this.connector.getConnection().prepareStatement(sql);
-                resultSet = statement.executeQuery();
+            statement = this.imgisConnector.getConnection().prepareStatement(sql);
+            resultSet = statement.executeQuery();
 
-                while (resultSet.next()) {
-                    result = resultSet.getInt(1);
-                }
-
-            } else {
-                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
+            while (resultSet.next()) {
+                result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
@@ -91,30 +84,36 @@ public class HubDAO {
 
     public void createGeoHubs(List<Hub> hubs) throws IMGISException{
         PreparedStatement statement;
-
+        String sql;
         try {
-            if (this.connector.connect()) {
-                String sql = "INSERT INTO GEO_MIT_HUB(ID, GEOMETRY) VALUES(?, ?)";
-
-                statement = this.connector.getConnection().prepareStatement(sql);
-
-                for (Hub hub : hubs) {
-                    statement.setLong(1, hub.getId());
-                    JGeometry geometry = GeometryUtil.createPointFromLatLong(hub.getXCoordEg(), hub.getYCoordEg());
-                    statement.setObject(2, JGeometry.storeJS(this.connector.getConnection(), geometry));
-                    statement.addBatch();
-                }
-
-                statement.executeBatch();
-
-            } else {
-                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
+            if (!this.imgisConnector.isConnected()) {
+                this.imgisConnector.connect();
             }
+            sql = "INSERT INTO GEO_MIT_HUB(ID, GEOMETRY) VALUES(?, ?)";
+
+            statement = this.imgisConnector.getConnection().prepareStatement(sql);
+
+            for (Hub hub : hubs) {
+                statement.setLong(1, hub.getId());
+                JGeometry geometry = GeometryUtil.createPointFromLatLong(hub.getXCoordEg(), hub.getYCoordEg());
+                statement.setObject(2, JGeometry.storeJS(this.imgisConnector.getConnection(), geometry));
+                statement.addBatch();
+            }
+
+            statement.executeBatch();
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        }
+    }
+
+    public void closeConnection() throws IMGISException{
+        if(this.imgisConnector != null){
+            if(this.imgisConnector.isConnected()) {
+                this.imgisConnector.closeConnection();
+            }
         }
     }
 }
