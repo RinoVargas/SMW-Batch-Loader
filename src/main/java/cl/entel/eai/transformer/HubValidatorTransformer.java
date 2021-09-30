@@ -1,7 +1,8 @@
-package cl.entel.eai.pipeline.transformer;
+package cl.entel.eai.transformer;
 
 import cl.entel.eai.model.Hub;
-import cl.entel.eai.validation.HubValidation;
+import cl.entel.eai.pipeline.transformer.Transformer;
+import cl.entel.eai.transformer.validation.HubValidation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

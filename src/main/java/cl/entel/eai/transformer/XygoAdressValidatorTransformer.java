@@ -1,7 +1,8 @@
-package cl.entel.eai.pipeline.transformer;
+package cl.entel.eai.transformer;
 
 import cl.entel.eai.model.XygoAddress;
-import cl.entel.eai.validation.XygoAddressValidation;
+import cl.entel.eai.pipeline.transformer.Transformer;
+import cl.entel.eai.transformer.validation.XygoAddressValidation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

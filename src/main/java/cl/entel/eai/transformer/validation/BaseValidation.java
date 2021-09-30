@@ -1,4 +1,4 @@
-package cl.entel.eai.validation;
+package cl.entel.eai.transformer.validation;
 
 public class BaseValidation {
 

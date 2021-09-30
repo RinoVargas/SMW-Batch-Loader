@@ -1,7 +1,8 @@
-package cl.entel.eai.pipeline.transformer;
+package cl.entel.eai.transformer;
 
 import cl.entel.eai.model.TerminalEnclosure;
-import cl.entel.eai.validation.TerminalEnclosureValidation;
+import cl.entel.eai.pipeline.transformer.Transformer;
+import cl.entel.eai.transformer.validation.TerminalEnclosureValidation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

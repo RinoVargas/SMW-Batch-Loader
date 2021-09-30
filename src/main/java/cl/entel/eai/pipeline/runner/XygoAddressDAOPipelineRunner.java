@@ -8,7 +8,7 @@ import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
 import cl.entel.eai.reader.XygoAddressDAOReader;
 import cl.entel.eai.pipeline.transformer.Transformer;
-import cl.entel.eai.pipeline.transformer.XygoAdressValidatorTransformer;
+import cl.entel.eai.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import cl.entel.eai.pipeline.writer.XygoAddressDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;

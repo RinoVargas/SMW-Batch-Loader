@@ -7,7 +7,7 @@ import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;
 import cl.entel.eai.reader.HubDAOReader;
-import cl.entel.eai.pipeline.transformer.HubValidatorTransformer;
+import cl.entel.eai.transformer.HubValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import cl.entel.eai.pipeline.writer.HubDAOWriter;

@@ -1,7 +1,8 @@
-package cl.entel.eai.pipeline.transformer;
+package cl.entel.eai.transformer;
 
 import cl.entel.eai.model.Building;
-import cl.entel.eai.validation.BuildingValidation;
+import cl.entel.eai.pipeline.transformer.Transformer;
+import cl.entel.eai.transformer.validation.BuildingValidation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

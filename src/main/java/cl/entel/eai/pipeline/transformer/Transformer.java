@@ -7,7 +7,7 @@ public abstract class Transformer<C, I, O> implements Handler<C, I, O> {
 
     protected C configuration;
 
-    Transformer() { }
+    public Transformer() { }
 
     public C getConfiguration() {
         return configuration;
