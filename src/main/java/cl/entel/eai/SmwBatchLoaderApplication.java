@@ -1,6 +1,9 @@
 package cl.entel.eai;
 
+import cl.entel.eai.runner.BuildingDAOPipelineRunner;
 import cl.entel.eai.runner.HubDAOPipelineRunner;
+import cl.entel.eai.runner.TerminalEnclosureDAOPipelineRunner;
+import cl.entel.eai.runner.XygoAddressDAOPipelineRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,5 +28,9 @@ public class SmwBatchLoaderApplication implements CommandLineRunner {
 		// Hub Runner
 		HubDAOPipelineRunner hubDAOPipelineRunner = context.getBean(HubDAOPipelineRunner.class);
 		hubDAOPipelineRunner.run();
+
+		// Building Runner
+		BuildingDAOPipelineRunner buildingDAOPipelineRunner = context.getBean(BuildingDAOPipelineRunner.class);
+		buildingDAOPipelineRunner.run();
 	}
 }

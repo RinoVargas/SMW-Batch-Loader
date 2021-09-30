@@ -10,3 +10,4 @@ factunif.db.password=development123456
 
 # Batch Loader Properties
 batch.loader.hub.chunksize=2000
+batch.loader.building.chunksize=5000

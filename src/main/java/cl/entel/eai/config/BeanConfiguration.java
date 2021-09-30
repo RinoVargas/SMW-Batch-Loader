@@ -1,8 +1,10 @@
 package cl.entel.eai.config;
 
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.dao.BuildingDAO;
+import cl.entel.eai.dao.TerminalEnclosureDAO;
+import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.pipeline.configuration.DAOConfiguration;
+import cl.entel.eai.pipeline.configuration.BuildingDAOConfiguration;
 import cl.entel.eai.pipeline.configuration.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,5 +25,19 @@ public class BeanConfiguration {
         hubDAODAOConfiguration.init();
 
         return hubDAODAOConfiguration;
+    }
+
+    // Building Configuration
+    @Bean
+    public BuildingDAO buildingDAO(){
+        return new BuildingDAO();
+    }
+
+    @Bean
+    public BuildingDAOConfiguration buildingDAOConfiguration(BuildingDAO dao, @Value("${batch.loader.building.chunksize}") int chunkSize) throws PipelineException {
+        BuildingDAOConfiguration configuration = new BuildingDAOConfiguration(dao, chunkSize);
+        configuration.init();
+
+        return configuration;
     }
 }
