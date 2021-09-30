@@ -5,7 +5,7 @@ import cl.entel.eai.pipeline.configuration.DAOConfiguration;
 
 public abstract class DAOWriter<D, I> extends Writer<DAOConfiguration<D>, I> {
 
-    DAOWriter() { }
+    public DAOWriter() { }
 
     public abstract Void process(I input) throws PipelineException;
 }

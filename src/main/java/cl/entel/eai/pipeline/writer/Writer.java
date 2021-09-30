@@ -7,7 +7,7 @@ public abstract class Writer<C, I> implements Handler<C, I, Void> {
 
     C configuration;
 
-    Writer() { }
+    public Writer() { }
 
     public C getConfiguration() {
         return configuration;
