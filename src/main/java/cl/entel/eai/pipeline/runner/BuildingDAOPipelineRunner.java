@@ -9,7 +9,7 @@ import cl.entel.eai.configuration.BuildingDAOConfiguration;
 import cl.entel.eai.reader.BuildingDAOReader;
 import cl.entel.eai.transformer.BuildingValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
-import cl.entel.eai.pipeline.writer.BuildingDAOWriter;
+import cl.entel.eai.writer.BuildingDAOWriter;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

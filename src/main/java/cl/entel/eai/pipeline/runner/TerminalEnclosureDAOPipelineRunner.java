@@ -10,7 +10,7 @@ import cl.entel.eai.reader.TerminalEnclosureDAOReader;
 import cl.entel.eai.transformer.TerminalEnclosureValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.pipeline.writer.TerminalEnclosureDAOWriter;
+import cl.entel.eai.writer.TerminalEnclosureDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

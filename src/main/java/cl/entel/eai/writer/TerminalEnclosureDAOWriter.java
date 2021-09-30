@@ -1,10 +1,11 @@
-package cl.entel.eai.pipeline.writer;
+package cl.entel.eai.writer;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.TerminalEnclosure;
+import cl.entel.eai.pipeline.writer.DAOWriter;
 
 import java.util.List;
 

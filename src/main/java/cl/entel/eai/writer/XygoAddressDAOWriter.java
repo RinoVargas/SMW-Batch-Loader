@@ -1,10 +1,11 @@
-package cl.entel.eai.pipeline.writer;
+package cl.entel.eai.writer;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.XygoAddress;
+import cl.entel.eai.pipeline.writer.DAOWriter;
 
 import java.util.List;
 

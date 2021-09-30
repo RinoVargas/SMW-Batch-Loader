@@ -10,7 +10,7 @@ import cl.entel.eai.reader.HubDAOReader;
 import cl.entel.eai.transformer.HubValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.pipeline.writer.HubDAOWriter;
+import cl.entel.eai.writer.HubDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

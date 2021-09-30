@@ -10,7 +10,7 @@ import cl.entel.eai.reader.XygoAddressDAOReader;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.pipeline.writer.XygoAddressDAOWriter;
+import cl.entel.eai.writer.XygoAddressDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
