@@ -3,5 +3,10 @@ imgis.db.url=jdbc:oracle:thin:@localhost:1521:orcl
 imgis.db.username=development
 imgis.db.password=development123456
 
+# FACTPRE FACTUNIF Database Credentials
+factunif.db.url=jdbc:oracle:thin:@localhost:1521:orcl
+factunif.db.username=development
+factunif.db.password=development123456
+
 # Batch Loader Properties
 batch.loader.hub.chunksize=2000
