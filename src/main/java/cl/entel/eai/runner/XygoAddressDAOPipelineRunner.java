@@ -5,7 +5,7 @@ import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.XygoAddress;
-import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
+import cl.entel.eai.configuration.pipeline.XygoAddressDAOConfiguration;
 import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
 import cl.entel.eai.reader.XygoAddressDAOReader;
 import cl.entel.eai.pipeline.transformer.Transformer;

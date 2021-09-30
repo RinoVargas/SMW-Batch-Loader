@@ -5,7 +5,7 @@ import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.TerminalEnclosure;
-import cl.entel.eai.configuration.TerminalEnclosureDAOConfiguration;
+import cl.entel.eai.configuration.pipeline.TerminalEnclosureDAOConfiguration;
 import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
 import cl.entel.eai.reader.TerminalEnclosureDAOReader;
 import cl.entel.eai.transformer.TerminalEnclosureValidatorTransformer;

@@ -5,7 +5,7 @@ import cl.entel.eai.dao.BuildingDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Building;
-import cl.entel.eai.configuration.BuildingDAOConfiguration;
+import cl.entel.eai.configuration.pipeline.BuildingDAOConfiguration;
 import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
 import cl.entel.eai.reader.BuildingDAOReader;
 import cl.entel.eai.transformer.BuildingValidatorTransformer;

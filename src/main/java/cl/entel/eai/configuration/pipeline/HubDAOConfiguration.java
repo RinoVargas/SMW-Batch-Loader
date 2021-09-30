@@ -1,17 +1,20 @@
-package cl.entel.eai.configuration;
+package cl.entel.eai.configuration.pipeline;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.TerminalEnclosureDAO;
+import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-public class TerminalEnclosureDAOConfiguration extends DAOConfiguration<TerminalEnclosureDAO> {
+public class HubDAOConfiguration extends DAOConfiguration<HubDAO> {
 
-    public TerminalEnclosureDAOConfiguration(TerminalEnclosureDAO terminalEnclosureDAO, int chunkSize) {
+    public HubDAOConfiguration(HubDAO hubDAO, int chunkSize) {
         this.setOffset(0);
         this.setChunkSize(chunkSize);
-        this.setDao(terminalEnclosureDAO);
+        this.setDao(hubDAO);
     }
 
     public void init() throws PipelineException {

@@ -2,7 +2,7 @@ package cl.entel.eai.runner;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.exception.IMGISException;
-import cl.entel.eai.configuration.HubDAOConfiguration;
+import cl.entel.eai.configuration.pipeline.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;

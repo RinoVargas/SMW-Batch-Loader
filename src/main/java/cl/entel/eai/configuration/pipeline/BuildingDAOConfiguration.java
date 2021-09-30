@@ -1,4 +1,4 @@
-package cl.entel.eai.configuration;
+package cl.entel.eai.configuration.pipeline;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.BuildingDAO;

@@ -1,17 +1,17 @@
-package cl.entel.eai.configuration;
+package cl.entel.eai.configuration.pipeline;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.XygoAddressDAO;
+import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
 
-public class XygoAddressDAOConfiguration extends DAOConfiguration<XygoAddressDAO> {
+public class TerminalEnclosureDAOConfiguration extends DAOConfiguration<TerminalEnclosureDAO> {
 
-    public XygoAddressDAOConfiguration(XygoAddressDAO dao, int chunkSize) {
+    public TerminalEnclosureDAOConfiguration(TerminalEnclosureDAO terminalEnclosureDAO, int chunkSize) {
         this.setOffset(0);
         this.setChunkSize(chunkSize);
-        this.setDao(dao);
+        this.setDao(terminalEnclosureDAO);
     }
 
     public void init() throws PipelineException {
