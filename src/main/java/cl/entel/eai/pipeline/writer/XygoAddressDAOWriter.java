@@ -18,7 +18,7 @@ public class XygoAddressDAOWriter extends DAOWriter<XygoAddressDAO, List<XygoAdd
     @Override
     public Void process(List<XygoAddress> input) throws PipelineException {
         try {
-            configuration.getDao().createGeoXygoAddress(input);
+            this.getConfiguration().getDao().createGeoXygoAddress(input);
         } catch (IMGISException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_WRITER, e.getMessage());
         }

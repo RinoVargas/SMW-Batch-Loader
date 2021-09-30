@@ -5,7 +5,7 @@ import cl.entel.eai.pipeline.Handler;
 
 public abstract class Writer<C, I> implements Handler<C, I, Void> {
 
-    C configuration;
+    private C configuration;
 
     public Writer() { }
 
