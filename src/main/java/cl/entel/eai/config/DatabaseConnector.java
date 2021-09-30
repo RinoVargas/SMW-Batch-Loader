@@ -28,21 +28,29 @@ public abstract class DatabaseConnector {
         return connection;
     }
 
-    public boolean connect() throws SQLException{
-        logger.info("Conectando a la base de datos...");
+    public boolean isConnected() {
+        return this.connection != null;
+    }
 
-        boolean isConnected = false;
-        OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setURL(this.url);
-        dataSource.setUser(this.username);
-        dataSource.setPassword(this.password);
-        dataSource.setImplicitCachingEnabled(true);
-        dataSource.setFastConnectionFailoverEnabled(true);
-        this.connection = dataSource.getConnection();
-        isConnected = true;
+    public void connect() throws IMGISException{
 
-        logger.info("Conexión exitosa a la base de datos!");
-        return isConnected;
+        if (!this.isConnected()) {
+            try {
+                logger.info("Conectando a la base de datos...");
+
+                OracleDataSource dataSource = new OracleDataSource();
+                dataSource.setURL(this.url);
+                dataSource.setUser(this.username);
+                dataSource.setPassword(this.password);
+                dataSource.setImplicitCachingEnabled(true);
+                dataSource.setFastConnectionFailoverEnabled(true);
+                this.connection = dataSource.getConnection();
+
+                logger.info("Conexión exitosa a la base de datos!");
+            } catch (SQLException e) {
+                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
+            }
+        }
     }
 
     public void close(Statement statement) throws IMGISException {
