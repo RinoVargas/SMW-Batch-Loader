@@ -1,4 +1,4 @@
-package cl.entel.eai.config;
+package cl.entel.eai.configuration;
 
 import cl.entel.eai.dao.BuildingDAO;
 import cl.entel.eai.dao.TerminalEnclosureDAO;

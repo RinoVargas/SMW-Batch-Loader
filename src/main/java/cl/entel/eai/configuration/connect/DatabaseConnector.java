@@ -1,4 +1,4 @@
-package cl.entel.eai.config;
+package cl.entel.eai.configuration;
 
 import cl.entel.eai.constants.IMGISError;
 import cl.entel.eai.exception.IMGISException;
