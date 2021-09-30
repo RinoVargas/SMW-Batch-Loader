@@ -1,10 +1,9 @@
 package cl.entel.eai.exception;
 
-import cl.entel.eai.constants.IMGISError;
 import cl.entel.eai.constants.PipelineError;
 
 public class PipelineException extends Exception{
-    private PipelineError status;
+    private final PipelineError status;
     private String message;
 
     public PipelineException(PipelineError status) {
@@ -19,7 +18,7 @@ public class PipelineException extends Exception{
     @Override
     public String getMessage() {
         if (this.message != null) {
-            return String.format("%s Detalles: %s", this.status.getMessage(), this.message);
+            return String.format("%s. %s", this.status.getMessage(), this.message);
         }
         return this.status.getMessage();
     }

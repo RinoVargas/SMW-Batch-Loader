@@ -18,7 +18,7 @@ public class IMGISException extends Exception{
     @Override
     public String getMessage() {
         if (this.message != null) {
-            return String.format("%s Detalles: %s", this.status.getMessage(), this.message);
+            return String.format("%s. %s", this.status.getMessage(), this.message);
         }
         return this.status.getMessage();
     }
