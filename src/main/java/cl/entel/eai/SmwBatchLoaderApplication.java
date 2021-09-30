@@ -1,5 +1,6 @@
 package cl.entel.eai;
 
+import cl.entel.eai.configuration.PipelineRunnerLocker;
 import cl.entel.eai.runner.BuildingDAOPipelineRunner;
 import cl.entel.eai.runner.HubDAOPipelineRunner;
 import cl.entel.eai.runner.TerminalEnclosureDAOPipelineRunner;
@@ -25,20 +26,30 @@ public class SmwBatchLoaderApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		PipelineRunnerLocker locker = context.getBean(PipelineRunnerLocker.class);
+
 		// Hub Runner
-		HubDAOPipelineRunner hubDAOPipelineRunner = context.getBean(HubDAOPipelineRunner.class);
-		hubDAOPipelineRunner.run();
+		if (locker.isEnableForHub()) {
+			HubDAOPipelineRunner hubDAOPipelineRunner = context.getBean(HubDAOPipelineRunner.class);
+			hubDAOPipelineRunner.run();
+		}
 
 		// Terminal Enclosure Runner
-		TerminalEnclosureDAOPipelineRunner terminalEnclosureDAOPipelineRunner = context.getBean(TerminalEnclosureDAOPipelineRunner.class);
-		terminalEnclosureDAOPipelineRunner.run();
+		if (locker.isEnableForTerminalEnclosure()) {
+			TerminalEnclosureDAOPipelineRunner terminalEnclosureDAOPipelineRunner = context.getBean(TerminalEnclosureDAOPipelineRunner.class);
+			terminalEnclosureDAOPipelineRunner.run();
+		}
 
 		// Building Runner
-		BuildingDAOPipelineRunner buildingDAOPipelineRunner = context.getBean(BuildingDAOPipelineRunner.class);
-		buildingDAOPipelineRunner.run();
+		if (locker.isEnableForBuilding()) {
+			BuildingDAOPipelineRunner buildingDAOPipelineRunner = context.getBean(BuildingDAOPipelineRunner.class);
+			buildingDAOPipelineRunner.run();
+		}
 
 		// XygoAddress Runner
-		XygoAddressDAOPipelineRunner xygoAddressDAOPipelineRunner = context.getBean(XygoAddressDAOPipelineRunner.class);
-		xygoAddressDAOPipelineRunner.run();
+		if (locker.isEnableForXygoAddress()) {
+			XygoAddressDAOPipelineRunner xygoAddressDAOPipelineRunner = context.getBean(XygoAddressDAOPipelineRunner.class);
+			xygoAddressDAOPipelineRunner.run();
+		}
 	}
 }
