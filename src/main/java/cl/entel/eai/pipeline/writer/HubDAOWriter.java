@@ -20,7 +20,7 @@ public class HubDAOWriter extends DAOWriter<HubDAO, List<Hub>> {
         try {
             configuration.getDao().createGeoHubs(input);
         } catch (IMGISException e) {
-            throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
+            throw new PipelineException(PipelineError.ERROR_PIPELINE_WRITER, e.getMessage());
         }
 
         return null;
