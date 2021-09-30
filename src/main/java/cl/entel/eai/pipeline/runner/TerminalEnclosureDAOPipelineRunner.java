@@ -1,12 +1,12 @@
-package cl.entel.eai.runner;
+package cl.entel.eai.pipeline.runner;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.TerminalEnclosure;
-import cl.entel.eai.pipeline.configuration.TerminalEnclosureDAOConfiguration;
-import cl.entel.eai.pipeline.reader.TerminalEnclosureDAOReader;
+import cl.entel.eai.configuration.TerminalEnclosureDAOConfiguration;
+import cl.entel.eai.reader.TerminalEnclosureDAOReader;
 import cl.entel.eai.pipeline.transformer.TerminalEnclosureValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;

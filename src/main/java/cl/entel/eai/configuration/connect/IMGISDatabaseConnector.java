@@ -1,4 +1,4 @@
-package cl.entel.eai.configuration;
+package cl.entel.eai.configuration.connect;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package cl.entel.eai.dao;
 
-import cl.entel.eai.config.IMGISDatabaseConnector;
+import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.IMGISError;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.model.Building;

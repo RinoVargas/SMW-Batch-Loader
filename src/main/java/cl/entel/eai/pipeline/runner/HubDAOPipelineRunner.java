@@ -1,12 +1,12 @@
-package cl.entel.eai.runner;
+package cl.entel.eai.pipeline.runner;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.exception.IMGISException;
-import cl.entel.eai.pipeline.configuration.HubDAOConfiguration;
+import cl.entel.eai.configuration.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;
-import cl.entel.eai.pipeline.reader.HubDAOReader;
+import cl.entel.eai.reader.HubDAOReader;
 import cl.entel.eai.pipeline.transformer.HubValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;

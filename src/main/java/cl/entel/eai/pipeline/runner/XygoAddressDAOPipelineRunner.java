@@ -1,21 +1,15 @@
-package cl.entel.eai.runner;
+package cl.entel.eai.pipeline.runner;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.model.TerminalEnclosure;
 import cl.entel.eai.model.XygoAddress;
-import cl.entel.eai.pipeline.configuration.TerminalEnclosureDAOConfiguration;
-import cl.entel.eai.pipeline.configuration.XygoAddressDAOConfiguration;
-import cl.entel.eai.pipeline.reader.TerminalEnclosureDAOReader;
-import cl.entel.eai.pipeline.reader.XygoAddressDAOReader;
-import cl.entel.eai.pipeline.transformer.TerminalEnclosureValidatorTransformer;
+import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
+import cl.entel.eai.reader.XygoAddressDAOReader;
 import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.pipeline.writer.TerminalEnclosureDAOWriter;
 import cl.entel.eai.pipeline.writer.XygoAddressDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

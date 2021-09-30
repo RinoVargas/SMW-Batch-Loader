@@ -1,4 +1,4 @@
-package cl.entel.eai.runner;
+package cl.entel.eai.pipeline.runner;
 
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;

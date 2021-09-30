@@ -1,6 +1,6 @@
 package cl.entel.eai.dao;
 
-import cl.entel.eai.config.FACTUNIFDatabaseConnector;
+import cl.entel.eai.configuration.connect.FACTUNIFDatabaseConnector;
 import cl.entel.eai.constants.IMGISError;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.model.XygoAddress;

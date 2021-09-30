@@ -1,14 +1,14 @@
-package cl.entel.eai.configuration;
+package cl.entel.eai.configuration.connect;
 
 import cl.entel.eai.dao.BuildingDAO;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.pipeline.configuration.BuildingDAOConfiguration;
-import cl.entel.eai.pipeline.configuration.HubDAOConfiguration;
+import cl.entel.eai.configuration.BuildingDAOConfiguration;
+import cl.entel.eai.configuration.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
-import cl.entel.eai.pipeline.configuration.TerminalEnclosureDAOConfiguration;
-import cl.entel.eai.pipeline.configuration.XygoAddressDAOConfiguration;
+import cl.entel.eai.configuration.TerminalEnclosureDAOConfiguration;
+import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
