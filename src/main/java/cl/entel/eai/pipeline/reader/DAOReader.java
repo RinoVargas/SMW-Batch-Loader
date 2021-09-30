@@ -5,7 +5,7 @@ import cl.entel.eai.pipeline.configuration.DAOConfiguration;
 
 public abstract class DAOReader<D, O> extends Reader<DAOConfiguration<D>, O> {
 
-    DAOReader() { }
+    public DAOReader() { }
 
     public abstract O process(Void input) throws PipelineException;
 
