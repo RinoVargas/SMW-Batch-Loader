@@ -1,32 +1,33 @@
-package cl.entel.eai.pipeline.runner;
+package cl.entel.eai.runner;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.BuildingDAO;
+import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.model.Building;
-import cl.entel.eai.configuration.BuildingDAOConfiguration;
-import cl.entel.eai.reader.BuildingDAOReader;
-import cl.entel.eai.transformer.BuildingValidatorTransformer;
+import cl.entel.eai.model.TerminalEnclosure;
+import cl.entel.eai.configuration.TerminalEnclosureDAOConfiguration;
+import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
+import cl.entel.eai.reader.TerminalEnclosureDAOReader;
+import cl.entel.eai.transformer.TerminalEnclosureValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
-import cl.entel.eai.writer.BuildingDAOWriter;
 import cl.entel.eai.pipeline.writer.DAOWriter;
+import cl.entel.eai.writer.TerminalEnclosureDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, List<Building>> {
+public class TerminalEnclosureDAOPipelineRunner extends DAOPipelineRunner<TerminalEnclosureDAO, List<TerminalEnclosure>> {
 
     @Autowired
-    private BuildingDAOConfiguration configuration;
+    private TerminalEnclosureDAOConfiguration configuration;
 
-    private BuildingDAOReader reader;
+    private TerminalEnclosureDAOReader reader;
 
     @Override
     protected void init() throws PipelineException{
-        reader = new BuildingDAOReader(configuration);
+        reader = new TerminalEnclosureDAOReader(configuration);
         this.setReader(reader);
     }
 
@@ -34,10 +35,10 @@ public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, Li
     public void executePipeline() throws PipelineException {
 
         // Transformer
-        Transformer<Void, List<Building>, List<Building>> transformer = new BuildingValidatorTransformer();
+        Transformer<Void, List<TerminalEnclosure>, List<TerminalEnclosure>> transformer = new TerminalEnclosureValidatorTransformer();
 
         // Writer
-        DAOWriter<BuildingDAO, List<Building>> writer = new BuildingDAOWriter();
+        DAOWriter<TerminalEnclosureDAO, List<TerminalEnclosure>> writer = new TerminalEnclosureDAOWriter();
         writer.setConfiguration(reader.getConfiguration());
 
         // Execute Pipeline

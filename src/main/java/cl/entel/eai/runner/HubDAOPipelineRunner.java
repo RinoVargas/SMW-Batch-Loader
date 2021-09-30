@@ -1,44 +1,45 @@
-package cl.entel.eai.pipeline.runner;
+package cl.entel.eai.runner;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.configuration.HubDAOConfiguration;
+import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.model.XygoAddress;
-import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
-import cl.entel.eai.reader.XygoAddressDAOReader;
+import cl.entel.eai.model.Hub;
+import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
+import cl.entel.eai.reader.HubDAOReader;
+import cl.entel.eai.transformer.HubValidatorTransformer;
 import cl.entel.eai.pipeline.transformer.Transformer;
-import cl.entel.eai.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.writer.XygoAddressDAOWriter;
+import cl.entel.eai.writer.HubDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressDAO, List<XygoAddress>> {
+public class HubDAOPipelineRunner extends DAOPipelineRunner<HubDAO, List<Hub>> {
 
     @Autowired
-    private XygoAddressDAOConfiguration configuration;
+    private HubDAOConfiguration hubDAOConfiguration;
 
-    private XygoAddressDAOReader reader;
+    private HubDAOReader hubDAOReader;
 
     @Override
     protected void init() throws PipelineException{
-        reader = new XygoAddressDAOReader(configuration);
-        this.setReader(reader);
+        hubDAOReader = new HubDAOReader(hubDAOConfiguration);
+        this.setReader(hubDAOReader);
     }
 
     @Override
     public void executePipeline() throws PipelineException {
 
         // Transformer
-        Transformer<Void, List<XygoAddress>, List<XygoAddress>> transformer = new XygoAdressValidatorTransformer();
+        Transformer<Void, List<Hub>, List<Hub>> transformer = new HubValidatorTransformer();
 
         // Writer
-        DAOWriter<XygoAddressDAO, List<XygoAddress>> writer = new XygoAddressDAOWriter();
-        writer.setConfiguration(reader.getConfiguration());
+        DAOWriter<HubDAO, List<Hub>> writer = new HubDAOWriter();
+        writer.setConfiguration(hubDAOReader.getConfiguration());
 
         // Execute Pipeline
         this.getPipeline(this.getReader())

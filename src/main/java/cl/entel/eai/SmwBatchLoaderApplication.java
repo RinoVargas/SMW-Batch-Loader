@@ -1,9 +1,9 @@
 package cl.entel.eai;
 
-import cl.entel.eai.pipeline.runner.BuildingDAOPipelineRunner;
-import cl.entel.eai.pipeline.runner.HubDAOPipelineRunner;
-import cl.entel.eai.pipeline.runner.TerminalEnclosureDAOPipelineRunner;
-import cl.entel.eai.pipeline.runner.XygoAddressDAOPipelineRunner;
+import cl.entel.eai.runner.BuildingDAOPipelineRunner;
+import cl.entel.eai.runner.HubDAOPipelineRunner;
+import cl.entel.eai.runner.TerminalEnclosureDAOPipelineRunner;
+import cl.entel.eai.runner.XygoAddressDAOPipelineRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

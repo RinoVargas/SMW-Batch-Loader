@@ -9,7 +9,7 @@ public abstract class DAOPipelineRunner<D, O> extends PipelineRunner<DAOConfigur
 
     private static final Log logger = LogFactory.getLog(DAOPipelineRunner.class);
 
-    DAOPipelineRunner() { }
+    public DAOPipelineRunner() { }
 
     @Override
     public void run() throws PipelineException{

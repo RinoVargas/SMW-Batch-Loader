@@ -1,32 +1,33 @@
-package cl.entel.eai.pipeline.runner;
+package cl.entel.eai.runner;
 
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.TerminalEnclosureDAO;
+import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
-import cl.entel.eai.model.TerminalEnclosure;
-import cl.entel.eai.configuration.TerminalEnclosureDAOConfiguration;
-import cl.entel.eai.reader.TerminalEnclosureDAOReader;
-import cl.entel.eai.transformer.TerminalEnclosureValidatorTransformer;
+import cl.entel.eai.model.XygoAddress;
+import cl.entel.eai.configuration.XygoAddressDAOConfiguration;
+import cl.entel.eai.pipeline.runner.DAOPipelineRunner;
+import cl.entel.eai.reader.XygoAddressDAOReader;
 import cl.entel.eai.pipeline.transformer.Transformer;
+import cl.entel.eai.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
-import cl.entel.eai.writer.TerminalEnclosureDAOWriter;
+import cl.entel.eai.writer.XygoAddressDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class TerminalEnclosureDAOPipelineRunner extends DAOPipelineRunner<TerminalEnclosureDAO, List<TerminalEnclosure>> {
+public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressDAO, List<XygoAddress>> {
 
     @Autowired
-    private TerminalEnclosureDAOConfiguration configuration;
+    private XygoAddressDAOConfiguration configuration;
 
-    private TerminalEnclosureDAOReader reader;
+    private XygoAddressDAOReader reader;
 
     @Override
     protected void init() throws PipelineException{
-        reader = new TerminalEnclosureDAOReader(configuration);
+        reader = new XygoAddressDAOReader(configuration);
         this.setReader(reader);
     }
 
@@ -34,10 +35,10 @@ public class TerminalEnclosureDAOPipelineRunner extends DAOPipelineRunner<Termin
     public void executePipeline() throws PipelineException {
 
         // Transformer
-        Transformer<Void, List<TerminalEnclosure>, List<TerminalEnclosure>> transformer = new TerminalEnclosureValidatorTransformer();
+        Transformer<Void, List<XygoAddress>, List<XygoAddress>> transformer = new XygoAdressValidatorTransformer();
 
         // Writer
-        DAOWriter<TerminalEnclosureDAO, List<TerminalEnclosure>> writer = new TerminalEnclosureDAOWriter();
+        DAOWriter<XygoAddressDAO, List<XygoAddress>> writer = new XygoAddressDAOWriter();
         writer.setConfiguration(reader.getConfiguration());
 
         // Execute Pipeline
