@@ -20,7 +20,7 @@ public class HubDAOReader extends DAOReader<HubDAO, List<Hub>>{
         try {
             return this.configuration.getDao().getHubChuck(configuration.getOffset(), configuration.getChunkSize());
         } catch (IMGISException e) {
-            throw new PipelineException(PipelineError.ERROR_PIPELINE_READER);
+            throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }
     }
 }
