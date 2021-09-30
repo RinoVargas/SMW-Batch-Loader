@@ -1,5 +1,7 @@
 package cl.entel.eai.runner;
 
+import cl.entel.eai.constants.PipelineError;
+import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.pipeline.configuration.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.PipelineException;
@@ -43,5 +45,14 @@ public class HubDAOPipelineRunner extends DAOPipelineRunner<HubDAO, List<Hub>> {
                 .addHandler(transformer)
                 .addHandler(writer)
                 .execute();
+    }
+
+    @Override
+    public void onFinish() throws PipelineException {
+        try {
+            this.getReader().getConfiguration().getDao().closeConnection();
+        } catch (IMGISException e) {
+            throw new PipelineException(PipelineError.ERROR_PIPELINE_DB_CLOSE_CONNECTION, e.getMessage());
+        }
     }
 }
