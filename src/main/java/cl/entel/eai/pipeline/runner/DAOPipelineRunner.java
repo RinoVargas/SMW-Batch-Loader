@@ -14,8 +14,9 @@ public abstract class DAOPipelineRunner<D, O> extends PipelineRunner<DAOConfigur
     @Override
     public void run() throws PipelineException{
 
-        logger.info("Inicializando carga de registros...");
+        this.onBeforeInit();
         this.init();
+        this.onAfterInit(this.getReader().getConfiguration());
 
         long offset = this.getReader().getConfiguration().getOffset();
         long total = this.getReader().getConfiguration().getTotalRecords();
@@ -24,18 +25,16 @@ public abstract class DAOPipelineRunner<D, O> extends PipelineRunner<DAOConfigur
             this.getReader().getConfiguration().computeChuckSize();
             long chunkSize = this.getReader().getConfiguration().getChunkSize();
 
-
+            this.onBeforePipelineExecuting(chunkSize, offset, total);
             this.executePipeline();
 
             offset += chunkSize;
             this.getReader().getConfiguration().incrementOffset(chunkSize);
 
-            logger.info(String.format("Lote de registros cargados: %d / %d", offset, total));
+            this.onAfterPipelineExecuting(chunkSize, offset, total);
         }
 
-        logger.info("Finalizando carga de registros...");
-        this.onFinish();
-        logger.info(String.format("Total de Registros cargados: %d", total));
+        this.onFinishPipelineExecuting(offset, total);
     }
 
     private long computeChuckSize(long offset, long chunkSize, long total) {
@@ -43,4 +42,14 @@ public abstract class DAOPipelineRunner<D, O> extends PipelineRunner<DAOConfigur
     }
 
     public abstract void executePipeline() throws PipelineException;
+
+    public void onBeforeInit() throws PipelineException { };
+
+    public void onAfterInit(DAOConfiguration<D> configuration) throws PipelineException { };
+
+    public void onBeforePipelineExecuting(long chunkSize,long offset, long total) throws PipelineException { };
+
+    public void onAfterPipelineExecuting(long chunkSize,long offset, long total) throws PipelineException { };
+
+    public void onFinishPipelineExecuting(long offset, long total) throws PipelineException { };
 }

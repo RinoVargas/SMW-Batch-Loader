@@ -25,6 +25,4 @@ public abstract class PipelineRunner<C, O> {
     public void setReader(Reader<C, O> reader) {
         this.reader = reader;
     }
-
-    protected abstract void onFinish() throws PipelineException ;
 }
