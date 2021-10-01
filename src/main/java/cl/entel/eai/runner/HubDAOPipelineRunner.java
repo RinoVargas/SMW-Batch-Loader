@@ -15,6 +15,7 @@ import cl.entel.eai.pipeline.transformer.Transformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import cl.entel.eai.writer.HubDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class HubDAOPipelineRunner extends DAOPipelineRunner<HubDAO, List<Hub>> {
 
     @Autowired
     private Logger logger;
+
+    @Value("${batch.loader.hub.erase-geometry-table}")
+    private boolean cleanGeometryTable;
 
     @Override
     protected void init() throws PipelineException{
@@ -70,6 +74,16 @@ public class HubDAOPipelineRunner extends DAOPipelineRunner<HubDAO, List<Hub>> {
     @Override
     public void onAfterInit(DAOConfiguration<HubDAO> configuration) throws PipelineException {
         logger.info(String.format("Cantidad de registros ha ser cargados: %d", configuration.getTotalRecords()));
+
+        if (this.cleanGeometryTable) {
+            try {
+                logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
+                configuration.getDao().cleanGeometryTable();
+                logger.info("Eliminación completada...");
+            } catch (IMGISException e) {
+                throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
+            }
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@ import cl.entel.eai.transformer.XygoAdressValidatorTransformer;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import cl.entel.eai.writer.XygoAddressDAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -36,6 +37,9 @@ public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressD
         reader = new XygoAddressDAOReader(configuration);
         this.setReader(reader);
     }
+
+    @Value("${batch.loader.xygoAddress.erase-geometry-table}")
+    private boolean cleanGeometryTable;
 
     @Override
     public void executePipeline() throws PipelineException {
@@ -71,6 +75,16 @@ public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressD
     @Override
     public void onAfterInit(DAOConfiguration<XygoAddressDAO> configuration) throws PipelineException {
         logger.info(String.format("Cantidad de registros ha ser cargados: %d", configuration.getTotalRecords()));
+
+        if (this.cleanGeometryTable) {
+            try {
+                logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
+                configuration.getDao().cleanGeometryTable();
+                logger.info("Eliminación completada...");
+            } catch (IMGISException e) {
+                throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
+            }
+        }
     }
 
     @Override

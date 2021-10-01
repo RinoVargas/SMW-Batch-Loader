@@ -122,5 +122,22 @@ public class XygoAddressDAO {
             }
         }
     }
+
+    public void cleanGeometryTable() throws IMGISException{
+        PreparedStatement statement;
+        String sql;
+        try {
+            this.factunifConnector.connect();
+            sql = "DELETE FROM FU_GEO_XYGO";
+
+            statement = this.factunifConnector.getConnection().prepareStatement(sql);
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+        } catch (Exception e) {
+            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        }
+    }
 }
 

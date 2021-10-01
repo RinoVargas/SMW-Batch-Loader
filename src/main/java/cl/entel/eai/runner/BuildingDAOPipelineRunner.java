@@ -18,6 +18,7 @@ import cl.entel.eai.util.LoggerUtil;
 import cl.entel.eai.writer.BuildingDAOWriter;
 import cl.entel.eai.pipeline.writer.DAOWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, Li
         reader = new BuildingDAOReader(configuration);
         this.setReader(reader);
     }
+
+    @Value("${batch.loader.building.erase-geometry-table}")
+    private boolean cleanGeometryTable;
 
     @Override
     public void executePipeline() throws PipelineException {
@@ -73,6 +77,16 @@ public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, Li
     @Override
     public void onAfterInit(DAOConfiguration<BuildingDAO> configuration) throws PipelineException {
         logger.info(String.format("Cantidad de registros ha ser cargados: %d", configuration.getTotalRecords()));
+
+        if (this.cleanGeometryTable) {
+            try {
+                logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
+                configuration.getDao().cleanGeometryTable();
+                logger.info("Eliminación completada...");
+            } catch (IMGISException e) {
+                throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
+            }
+        }
     }
 
     @Override

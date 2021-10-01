@@ -114,5 +114,22 @@ public class BuildingDAO {
             }
         }
     }
+
+    public void cleanGeometryTable() throws IMGISException{
+        PreparedStatement statement;
+        String sql;
+        try {
+            this.imgisConnector.connect();
+            sql = "DELETE FROM GEO_BUILDING";
+
+            statement = this.imgisConnector.getConnection().prepareStatement(sql);
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+        } catch (Exception e) {
+            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        }
+    }
 }
 
