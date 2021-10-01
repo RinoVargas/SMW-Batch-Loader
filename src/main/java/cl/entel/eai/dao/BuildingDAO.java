@@ -6,8 +6,6 @@ import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.model.Building;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.PreparedStatement;
@@ -18,8 +16,6 @@ import java.util.List;
 
 
 public class BuildingDAO {
-
-    private static final Log logger = LogFactory.getLog(BuildingDAO.class);
 
     @Autowired
     private IMGISDatabaseConnector imgisConnector;
@@ -54,7 +50,6 @@ public class BuildingDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
@@ -83,7 +78,6 @@ public class BuildingDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
@@ -109,7 +103,6 @@ public class BuildingDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
