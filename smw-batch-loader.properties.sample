@@ -20,3 +20,9 @@ batch.loader.terminalEnclosure.chunksize=5000
 
 batch.loader.xygoAddress.enabled=true
 batch.loader.xygoAddress.chunksize=5000
+
+#Logging Properties
+app.logging.path=/home/development/log/
+app.logging.filename=smw-batch-loader.log
+app.logging.pattern=%d{ISO8601} %-5level [%t] %C{1.}: %msg%n%throwable
+app.logging.level=DEBUG

@@ -48,7 +48,6 @@ public class HubDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
@@ -75,7 +74,6 @@ public class HubDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
@@ -104,7 +102,6 @@ public class HubDAO {
         } catch (SQLException e) {
             throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
