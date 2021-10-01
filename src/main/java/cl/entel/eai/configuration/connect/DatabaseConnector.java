@@ -41,7 +41,7 @@ public abstract class DatabaseConnector {
                 this.connection = dataSource.getConnection();
 
             } catch (SQLException e) {
-                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED);
+                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED, e.getMessage());
             }
         }
     }
