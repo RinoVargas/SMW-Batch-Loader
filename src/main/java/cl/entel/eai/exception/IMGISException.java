@@ -3,7 +3,7 @@ package cl.entel.eai.exception;
 import cl.entel.eai.constants.IMGISError;
 
 public class IMGISException extends Exception{
-    private IMGISError status;
+    private final IMGISError status;
     private String message;
 
     public IMGISException(IMGISError status) {
