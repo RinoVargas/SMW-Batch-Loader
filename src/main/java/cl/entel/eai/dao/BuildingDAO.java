@@ -1,7 +1,7 @@
 package cl.entel.eai.dao;
 
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
-import cl.entel.eai.constants.IMGISError;
+import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.model.Building;
 import cl.entel.eai.util.GeometryUtil;
@@ -48,9 +48,9 @@ public class BuildingDAO {
                 result.add(building);
             }
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
@@ -76,9 +76,9 @@ public class BuildingDAO {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
@@ -101,9 +101,9 @@ public class BuildingDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
@@ -112,6 +112,23 @@ public class BuildingDAO {
             if(this.imgisConnector.isConnected()) {
                 this.imgisConnector.closeConnection();
             }
+        }
+    }
+
+    public void cleanGeometryTable() throws IMGISException{
+        PreparedStatement statement;
+        String sql;
+        try {
+            this.imgisConnector.connect();
+            sql = "DELETE FROM GEO_BUILDING";
+
+            statement = this.imgisConnector.getConnection().prepareStatement(sql);
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+        } catch (Exception e) {
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }
