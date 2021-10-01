@@ -1,5 +1,6 @@
 package cl.entel.eai.configuration;
 
+import ch.qos.logback.classic.Logger;
 import cl.entel.eai.dao.BuildingDAO;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.dao.XygoAddressDAO;
@@ -9,6 +10,7 @@ import cl.entel.eai.configuration.pipeline.HubDAOConfiguration;
 import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.configuration.pipeline.TerminalEnclosureDAOConfiguration;
 import cl.entel.eai.configuration.pipeline.XygoAddressDAOConfiguration;
+import cl.entel.eai.log.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,5 +74,13 @@ public class BeanConfiguration {
         return configuration;
     }
 
+    @Bean
+    public Logger logger(@Value("${app.logging.path}") String path,
+                         @Value("${app.logging.filename}") String filename,
+                         @Value("${app.logging.pattern}") String pattern,
+                         @Value("${app.logging.level}") String level) {
+
+        return LoggerFactory.getLogger(path, filename, pattern, level);
+    }
 
 }
