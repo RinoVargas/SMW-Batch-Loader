@@ -9,7 +9,7 @@ factunif.db.username=development
 factunif.db.password=development123456
 
 # Batch Loader Properties
-batch.loader.chunksize.enabled=true
+batch.loader.hub.enabled=true
 batch.loader.hub.chunksize=2000
 
 batch.loader.building.enabled=true
