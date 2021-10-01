@@ -1,7 +1,7 @@
 package cl.entel.eai.dao;
 
 import cl.entel.eai.configuration.connect.FACTUNIFDatabaseConnector;
-import cl.entel.eai.constants.IMGISError;
+import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.util.GeometryUtil;
@@ -55,9 +55,9 @@ public class XygoAddressDAO {
                 result.add(xygoAddress);
             }
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
@@ -83,9 +83,9 @@ public class XygoAddressDAO {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
@@ -109,9 +109,9 @@ public class XygoAddressDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
@@ -134,9 +134,9 @@ public class XygoAddressDAO {
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }

@@ -1,10 +1,8 @@
 package cl.entel.eai.runner;
 
 import ch.qos.logback.classic.Logger;
-import cl.entel.eai.constants.IMGISError;
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.BuildingDAO;
-import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Building;

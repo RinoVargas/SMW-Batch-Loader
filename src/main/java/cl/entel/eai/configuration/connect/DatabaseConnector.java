@@ -1,6 +1,6 @@
 package cl.entel.eai.configuration.connect;
 
-import cl.entel.eai.constants.IMGISError;
+import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.IMGISException;
 import oracle.jdbc.pool.OracleDataSource;
 import java.sql.Connection;
@@ -41,7 +41,7 @@ public abstract class DatabaseConnector {
                 this.connection = dataSource.getConnection();
 
             } catch (SQLException e) {
-                throw new IMGISException(IMGISError.ERROR_DB_NOT_CONNECTED, e.getMessage());
+                throw new IMGISException(DAOError.ERROR_DB_NOT_CONNECTED, e.getMessage());
             }
         }
     }
@@ -53,9 +53,9 @@ public abstract class DatabaseConnector {
                 statement.close();
             }
         } catch (SQLException e){
-            throw new IMGISException(IMGISError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
         } catch (Exception e){
-            throw new IMGISException(IMGISError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
@@ -64,9 +64,9 @@ public abstract class DatabaseConnector {
             this.connection.close();
             this.connection = null;
         } catch (SQLException e) {
-            throw new IMGISException(IMGISError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(IMGISError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }
