@@ -29,7 +29,7 @@ public class LoggerFactory {
         TimeBasedRollingPolicy logFilePolicy = new TimeBasedRollingPolicy<>();
         logFilePolicy.setContext(logCtx);
         logFilePolicy.setParent(logFileAppender);
-        logFilePolicy.setFileNamePattern(path + "/" + filename + "-%d{yyyy-MM-dd_HH}.log");
+        logFilePolicy.setFileNamePattern(path + "/" + filename + "-%d{yyyy-MM-dd}.log");
         logFilePolicy.setMaxHistory(7);
         logFilePolicy.start();
 
