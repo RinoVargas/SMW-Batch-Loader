@@ -27,7 +27,7 @@ public class XygoAddressDAO {
     private FACTUNIFDatabaseConnector factunifConnector;
 
     public List<XygoAddress> getXygoAddressChuck (long offset, int chunkSize) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<XygoAddress> result = new ArrayList<>();
         String sql;
@@ -60,13 +60,15 @@ public class XygoAddressDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         Integer result = null;
         String sql;
@@ -88,13 +90,15 @@ public class XygoAddressDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
 
@@ -114,6 +118,8 @@ public class XygoAddressDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
@@ -126,7 +132,7 @@ public class XygoAddressDAO {
     }
 
     public void cleanGeometryTable() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             this.factunifConnector.connect();
@@ -139,6 +145,8 @@ public class XygoAddressDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }

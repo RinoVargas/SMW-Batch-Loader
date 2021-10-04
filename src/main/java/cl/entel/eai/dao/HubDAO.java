@@ -1,5 +1,6 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.DAOException;
@@ -20,7 +21,7 @@ public class HubDAO {
     private IMGISDatabaseConnector imgisConnector;
 
     public List<Hub> getHubChuck (long offset, int chunkSize) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<Hub> result = new ArrayList<>();
         String sql;
@@ -49,13 +50,15 @@ public class HubDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         Integer result = null;
         String sql;
@@ -75,13 +78,15 @@ public class HubDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public void createGeoHubs(List<Hub> hubs) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             if (!this.imgisConnector.isConnected()) {
@@ -103,6 +108,8 @@ public class HubDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
@@ -115,7 +122,7 @@ public class HubDAO {
     }
 
     public void cleanGeometryTable() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             this.imgisConnector.connect();
@@ -127,6 +134,8 @@ public class HubDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }

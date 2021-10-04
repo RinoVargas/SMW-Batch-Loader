@@ -69,4 +69,10 @@ public abstract class DatabaseConnector {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
+
+    public static void releaseResources(Statement statement) {
+        if (statement != null) {
+            try { statement.close(); } catch (SQLException ignore) { };
+        }
+    }
 }

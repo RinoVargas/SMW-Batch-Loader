@@ -1,5 +1,6 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.DAOException;
@@ -25,7 +26,7 @@ public class TerminalEnclosureDAO {
     private IMGISDatabaseConnector imgisConnector;
 
     public List<TerminalEnclosure> getTerminalEnclosureChuck (long offset, int chunkSize) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<TerminalEnclosure> result = new ArrayList<>();
         String sql;
@@ -54,13 +55,15 @@ public class TerminalEnclosureDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         Integer result = null;
         String sql;
@@ -82,13 +85,15 @@ public class TerminalEnclosureDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public void createGeoTerminalEnclosure(List<TerminalEnclosure> terminalEnclosures) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
 
         try {
@@ -109,6 +114,8 @@ public class TerminalEnclosureDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
@@ -121,7 +128,7 @@ public class TerminalEnclosureDAO {
     }
 
     public void cleanGeometryTable() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             this.imgisConnector.connect();
@@ -134,6 +141,8 @@ public class TerminalEnclosureDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }

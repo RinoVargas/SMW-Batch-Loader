@@ -1,5 +1,6 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
 import cl.entel.eai.exception.DAOException;
@@ -21,7 +22,7 @@ public class BuildingDAO {
     private IMGISDatabaseConnector imgisConnector;
 
     public List<Building> getBuildingChuck (long offset, int chunkSize) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<Building> result = new ArrayList<>();
         String sql;
@@ -51,13 +52,15 @@ public class BuildingDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement= null;
         ResultSet resultSet;
         Integer result = null;
         String sql;
@@ -79,13 +82,15 @@ public class BuildingDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
     public void createGeoBuilding(List<Building> buildings) throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             sql = "INSERT INTO GEO_BUILDING(ID, GEOMETRY) VALUES(?, ?)";
@@ -104,6 +109,8 @@ public class BuildingDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
@@ -116,7 +123,7 @@ public class BuildingDAO {
     }
 
     public void cleanGeometryTable() throws DAOException {
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         String sql;
         try {
             this.imgisConnector.connect();
@@ -129,6 +136,8 @@ public class BuildingDAO {
             throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
             throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }
