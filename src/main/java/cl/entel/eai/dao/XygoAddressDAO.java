@@ -1,8 +1,9 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.FACTUNIFDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class XygoAddressDAO {
     @Autowired
     private FACTUNIFDatabaseConnector factunifConnector;
 
-    public List<XygoAddress> getXygoAddressChuck (long offset, int chunkSize) throws IMGISException {
+    public List<XygoAddress> getXygoAddressChuck (long offset, int chunkSize) throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         List<XygoAddress> result = new ArrayList<>();
@@ -55,15 +57,15 @@ public class XygoAddressDAO {
                 result.add(xygoAddress);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public Integer getRecordCount() throws IMGISException{
+    public Integer getRecordCount() throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         Integer result = null;
@@ -83,15 +85,15 @@ public class XygoAddressDAO {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws IMGISException{
+    public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws DAOException {
         PreparedStatement statement;
         String sql;
         try {
@@ -109,13 +111,13 @@ public class XygoAddressDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
-    public void closeConnection() throws IMGISException{
+    public void closeConnection() throws DAOException {
         if(this.factunifConnector != null){
             if(this.factunifConnector.isConnected()) {
                 this.factunifConnector.closeConnection();
@@ -123,7 +125,7 @@ public class XygoAddressDAO {
         }
     }
 
-    public void cleanGeometryTable() throws IMGISException{
+    public void cleanGeometryTable() throws DAOException {
         PreparedStatement statement;
         String sql;
         try {
@@ -134,9 +136,9 @@ public class XygoAddressDAO {
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }

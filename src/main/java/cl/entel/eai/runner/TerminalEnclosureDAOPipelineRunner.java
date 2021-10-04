@@ -2,9 +2,8 @@ package cl.entel.eai.runner;
 
 import ch.qos.logback.classic.Logger;
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.TerminalEnclosure;
 import cl.entel.eai.configuration.pipeline.TerminalEnclosureDAOConfiguration;
@@ -62,7 +61,7 @@ public class TerminalEnclosureDAOPipelineRunner extends DAOPipelineRunner<Termin
         try {
             logger.info("Cerrando conexiones...");
             this.getReader().getConfiguration().getDao().closeConnection();
-        } catch (IMGISException e) {
+        } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_DB_CLOSE_CONNECTION, e.getMessage());
         }
     }
@@ -81,7 +80,7 @@ public class TerminalEnclosureDAOPipelineRunner extends DAOPipelineRunner<Termin
                 logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
                 configuration.getDao().cleanGeometryTable();
                 logger.info("Eliminación completada...");
-            } catch (IMGISException e) {
+            } catch (DAOException e) {
                 throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
             }
         }

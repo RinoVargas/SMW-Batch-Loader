@@ -2,15 +2,15 @@ package cl.entel.eai.exception;
 
 import cl.entel.eai.constants.DAOError;
 
-public class IMGISException extends Exception{
+public class DAOException extends Exception{
     private final DAOError status;
     private String message;
 
-    public IMGISException(DAOError status) {
+    public DAOException(DAOError status) {
         this.status = status;
     }
 
-    public IMGISException(DAOError status, String message) {
+    public DAOException(DAOError status, String message) {
         this.status = status;
         this.message = message;
     }

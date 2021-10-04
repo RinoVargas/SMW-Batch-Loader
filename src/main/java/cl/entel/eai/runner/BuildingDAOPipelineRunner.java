@@ -3,7 +3,7 @@ package cl.entel.eai.runner;
 import ch.qos.logback.classic.Logger;
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.BuildingDAO;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Building;
 import cl.entel.eai.configuration.pipeline.BuildingDAOConfiguration;
@@ -61,7 +61,7 @@ public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, Li
         try {
             logger.info("Cerrando conexiones...");
             this.getReader().getConfiguration().getDao().closeConnection();
-        } catch (IMGISException e) {
+        } catch (DAOException e) {
             logger.error(LoggerUtil.formatErrorMessage(PipelineError.ERROR_PIPELINE_DB_CLOSE_CONNECTION, e.getMessage()));
             throw new PipelineException(PipelineError.ERROR_PIPELINE_DB_CLOSE_CONNECTION, e.getMessage());
         }
@@ -81,7 +81,7 @@ public class BuildingDAOPipelineRunner extends DAOPipelineRunner<BuildingDAO, Li
                 logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
                 configuration.getDao().cleanGeometryTable();
                 logger.info("Eliminación completada...");
-            } catch (IMGISException e) {
+            } catch (DAOException e) {
                 throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
             }
         }

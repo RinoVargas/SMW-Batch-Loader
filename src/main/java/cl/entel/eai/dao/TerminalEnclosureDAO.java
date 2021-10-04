@@ -2,7 +2,7 @@ package cl.entel.eai.dao;
 
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.model.TerminalEnclosure;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
@@ -24,7 +24,7 @@ public class TerminalEnclosureDAO {
     @Autowired
     private IMGISDatabaseConnector imgisConnector;
 
-    public List<TerminalEnclosure> getTerminalEnclosureChuck (long offset, int chunkSize) throws IMGISException {
+    public List<TerminalEnclosure> getTerminalEnclosureChuck (long offset, int chunkSize) throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         List<TerminalEnclosure> result = new ArrayList<>();
@@ -51,15 +51,15 @@ public class TerminalEnclosureDAO {
                 result.add(terminalEnclosure);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public Integer getRecordCount() throws IMGISException{
+    public Integer getRecordCount() throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         Integer result = null;
@@ -79,15 +79,15 @@ public class TerminalEnclosureDAO {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public void createGeoTerminalEnclosure(List<TerminalEnclosure> terminalEnclosures) throws IMGISException{
+    public void createGeoTerminalEnclosure(List<TerminalEnclosure> terminalEnclosures) throws DAOException {
         PreparedStatement statement;
         String sql;
 
@@ -106,13 +106,13 @@ public class TerminalEnclosureDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
-    public void closeConnection() throws IMGISException{
+    public void closeConnection() throws DAOException {
         if(this.imgisConnector != null){
             if(this.imgisConnector.isConnected()) {
                 this.imgisConnector.closeConnection();
@@ -120,7 +120,7 @@ public class TerminalEnclosureDAO {
         }
     }
 
-    public void cleanGeometryTable() throws IMGISException{
+    public void cleanGeometryTable() throws DAOException {
         PreparedStatement statement;
         String sql;
         try {
@@ -131,9 +131,9 @@ public class TerminalEnclosureDAO {
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }

@@ -2,7 +2,7 @@ package cl.entel.eai.dao;
 
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.model.Building;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
@@ -20,7 +20,7 @@ public class BuildingDAO {
     @Autowired
     private IMGISDatabaseConnector imgisConnector;
 
-    public List<Building> getBuildingChuck (long offset, int chunkSize) throws IMGISException {
+    public List<Building> getBuildingChuck (long offset, int chunkSize) throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         List<Building> result = new ArrayList<>();
@@ -48,15 +48,15 @@ public class BuildingDAO {
                 result.add(building);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public Integer getRecordCount() throws IMGISException{
+    public Integer getRecordCount() throws DAOException {
         PreparedStatement statement;
         ResultSet resultSet;
         Integer result = null;
@@ -76,15 +76,15 @@ public class BuildingDAO {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
 
         return result;
     }
 
-    public void createGeoBuilding(List<Building> buildings) throws IMGISException{
+    public void createGeoBuilding(List<Building> buildings) throws DAOException {
         PreparedStatement statement;
         String sql;
         try {
@@ -101,13 +101,13 @@ public class BuildingDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
-    public void closeConnection() throws IMGISException{
+    public void closeConnection() throws DAOException {
         if(this.imgisConnector != null){
             if(this.imgisConnector.isConnected()) {
                 this.imgisConnector.closeConnection();
@@ -115,7 +115,7 @@ public class BuildingDAO {
         }
     }
 
-    public void cleanGeometryTable() throws IMGISException{
+    public void cleanGeometryTable() throws DAOException {
         PreparedStatement statement;
         String sql;
         try {
@@ -126,9 +126,9 @@ public class BuildingDAO {
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
         }
     }
 }

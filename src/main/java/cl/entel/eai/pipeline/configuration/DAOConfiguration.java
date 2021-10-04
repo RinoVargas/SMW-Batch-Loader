@@ -1,7 +1,5 @@
 package cl.entel.eai.pipeline.configuration;
 
-import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.exception.IMGISException;
 import cl.entel.eai.exception.PipelineException;
 
 public abstract class DAOConfiguration<D> implements Configuration{

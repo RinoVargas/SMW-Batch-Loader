@@ -2,7 +2,7 @@ package cl.entel.eai.reader;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.HubDAO;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
@@ -20,7 +20,7 @@ public class HubDAOReader extends DAOReader<HubDAO, List<Hub>> {
     public List<Hub> process(Void input) throws PipelineException {
         try {
             return this.configuration.getDao().getHubChuck(configuration.getOffset(), configuration.getChunkSize());
-        } catch (IMGISException e) {
+        } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }
     }
