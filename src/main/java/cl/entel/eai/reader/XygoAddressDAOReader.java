@@ -3,6 +3,7 @@ package cl.entel.eai.reader;
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.XygoAddressDAO;
 import cl.entel.eai.exception.DAOException;
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
@@ -17,9 +18,14 @@ public class XygoAddressDAOReader extends DAOReader<XygoAddressDAO, List<XygoAdd
     }
 
     @Override
-    public List<XygoAddress> process(Void input) throws PipelineException {
+    public List<XygoAddress> process(Void input) throws PipelineException, NoDataToReceiveException {
         try {
-            return this.configuration.getDao().getXygoAddressChuck(configuration.getOffset(), configuration.getChunkSize());
+            List<XygoAddress> addresses = this.configuration.getDao().getXygoAddressChuck(configuration.getOffset(), configuration.getChunkSize());
+            if (addresses.isEmpty()) {
+                throw new NoDataToReceiveException();
+            }
+
+            return addresses;
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }

@@ -19,6 +19,7 @@ public class HubDAOWriter extends DAOWriter<HubDAO, List<Hub>> {
     @Override
     public Void process(List<Hub> input) throws PipelineException {
         try {
+            this.setOutputRecords(input.size());
             this.getConfiguration().getDao().createGeoHubs(input);
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_WRITER, e.getMessage());

@@ -19,6 +19,7 @@ public class BuildingDAOWriter extends DAOWriter<BuildingDAO, List<Building>> {
     @Override
     public Void process(List<Building> input) throws PipelineException {
         try {
+            this.setOutputRecords(input.size());
             this.getConfiguration().getDao().createGeoBuilding(input);
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_WRITER, e.getMessage());

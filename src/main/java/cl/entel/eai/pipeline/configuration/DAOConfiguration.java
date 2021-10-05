@@ -6,11 +6,10 @@ public abstract class DAOConfiguration<D> implements Configuration{
     protected D dao;
     protected int chunkSize;
     protected long offset;
-    protected long totalRecords;
 
     public DAOConfiguration() { }
 
-    public abstract void init() throws PipelineException;
+    public void init() throws PipelineException {};
 
     public int getChunkSize() {
         return chunkSize;
@@ -28,16 +27,8 @@ public abstract class DAOConfiguration<D> implements Configuration{
         this.offset = offset;
     }
 
-    public void setTotalRecords(long totalRecords) {
-        this.totalRecords = totalRecords;
-    }
-
     public long getOffset() {
         return offset;
-    }
-
-    public long getTotalRecords() {
-        return totalRecords;
     }
 
     public D getDao() {
@@ -46,9 +37,5 @@ public abstract class DAOConfiguration<D> implements Configuration{
 
     public void setDao(D dao) {
         this.dao = dao;
-    }
-
-    public void computeChuckSize() {
-        this.setChunkSize((offset + chunkSize) > totalRecords ? (int)(totalRecords - offset) : chunkSize);
     }
 }

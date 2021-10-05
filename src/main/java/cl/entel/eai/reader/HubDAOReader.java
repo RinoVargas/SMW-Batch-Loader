@@ -3,6 +3,7 @@ package cl.entel.eai.reader;
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.exception.DAOException;
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Hub;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
@@ -17,9 +18,15 @@ public class HubDAOReader extends DAOReader<HubDAO, List<Hub>> {
     }
 
     @Override
-    public List<Hub> process(Void input) throws PipelineException {
+    public List<Hub> process(Void input) throws PipelineException, NoDataToReceiveException {
         try {
-            return this.configuration.getDao().getHubChuck(configuration.getOffset(), configuration.getChunkSize());
+
+            List<Hub> hubs = this.configuration.getDao().getHubChuck(configuration.getOffset(), configuration.getChunkSize());
+            if (hubs.isEmpty()) {
+                throw  new NoDataToReceiveException();
+            }
+
+            return hubs;
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }

@@ -3,6 +3,7 @@ package cl.entel.eai.reader;
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.TerminalEnclosureDAO;
 import cl.entel.eai.exception.DAOException;
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.TerminalEnclosure;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
@@ -17,9 +18,14 @@ public class TerminalEnclosureDAOReader extends DAOReader<TerminalEnclosureDAO, 
     }
 
     @Override
-    public List<TerminalEnclosure> process(Void input) throws PipelineException {
+    public List<TerminalEnclosure> process(Void input) throws PipelineException, NoDataToReceiveException {
         try {
-            return this.configuration.getDao().getTerminalEnclosureChuck(configuration.getOffset(), configuration.getChunkSize());
+            List<TerminalEnclosure> terminalEnclosures = this.configuration.getDao().getTerminalEnclosureChuck(configuration.getOffset(), configuration.getChunkSize());
+            if (terminalEnclosures.isEmpty()) {
+                throw new NoDataToReceiveException();
+            }
+
+            return terminalEnclosures;
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }

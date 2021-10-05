@@ -19,6 +19,7 @@ public class TerminalEnclosureDAOWriter extends DAOWriter<TerminalEnclosureDAO, 
     @Override
     public Void process(List<TerminalEnclosure> input) throws PipelineException {
         try {
+            this.setOutputRecords(input.size());
             this.getConfiguration().getDao().createGeoTerminalEnclosure(input);
         } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_WRITER, e.getMessage());

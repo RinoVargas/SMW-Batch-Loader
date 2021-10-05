@@ -1,5 +1,6 @@
 package cl.entel.eai.pipeline;
 
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 
 public class Pipeline<C, I, O> {
@@ -12,7 +13,7 @@ public class Pipeline<C, I, O> {
         return new Pipeline<>(input -> handler.process(this.currentHandler.process(input)));
     }
 
-    public void execute() throws PipelineException {
+    public void execute() throws PipelineException, NoDataToReceiveException {
         currentHandler.process(null);
     }
 }
