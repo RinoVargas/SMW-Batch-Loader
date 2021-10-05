@@ -3,7 +3,7 @@ imgis.db.url=jdbc:oracle:thin:@localhost:1521:orcl
 imgis.db.username=development
 imgis.db.password=development123456
 
-# FACTPRE FACTUNIF Database Credentials
+# FACTUNIF Database Credentials
 factunif.db.url=jdbc:oracle:thin:@localhost:1521:orcl
 factunif.db.username=development
 factunif.db.password=development123456
@@ -26,7 +26,7 @@ batch.loader.xygoAddress.chunksize=5000
 batch.loader.xygoAddress.erase-geometry-table=false
 
 #Logging Properties
-app.logging.path=/home/development/log/
+app.logging.path=log
 app.logging.filename=smw-batch-loader.log
 app.logging.pattern=%d{ISO8601} %-5level [%t] %C{1.}: %msg%n%throwable
 app.logging.level=DEBUG

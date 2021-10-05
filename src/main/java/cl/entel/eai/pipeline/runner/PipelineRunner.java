@@ -1,5 +1,6 @@
 package cl.entel.eai.pipeline.runner;
 
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.pipeline.Pipeline;
 import cl.entel.eai.pipeline.reader.Reader;
@@ -25,4 +26,6 @@ public abstract class PipelineRunner<C, O> {
     public void setReader(Reader<C, O> reader) {
         this.reader = reader;
     }
+
+    public abstract void executePipeline() throws PipelineException, NoDataToReceiveException;
 }

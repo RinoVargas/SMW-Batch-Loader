@@ -2,7 +2,8 @@ package cl.entel.eai.reader;
 
 import cl.entel.eai.constants.PipelineError;
 import cl.entel.eai.dao.BuildingDAO;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.Building;
 import cl.entel.eai.pipeline.configuration.DAOConfiguration;
@@ -17,11 +18,20 @@ public class BuildingDAOReader extends DAOReader<BuildingDAO, List<Building>> {
     }
 
     @Override
-    public List<Building> process(Void input) throws PipelineException {
+    public List<Building> process(Void input) throws PipelineException,NoDataToReceiveException {
         try {
-            return this.configuration.getDao().getBuildingChuck(configuration.getOffset(), configuration.getChunkSize());
-        } catch (IMGISException e) {
+            List<Building> buildings = this.configuration.getDao().getBuildingChuck(configuration.getOffset(), configuration.getChunkSize());
+            if (buildings.isEmpty()) {
+                throw new NoDataToReceiveException();
+            }
+
+            return buildings;
+        } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_READER, e.getMessage());
         }
+    }
+
+    public void onAfterRead(List<Building> records) {
+
     }
 }

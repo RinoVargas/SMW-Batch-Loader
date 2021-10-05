@@ -2,9 +2,9 @@ package cl.entel.eai.runner;
 
 import ch.qos.logback.classic.Logger;
 import cl.entel.eai.constants.PipelineError;
-import cl.entel.eai.dao.HubDAO;
 import cl.entel.eai.dao.XygoAddressDAO;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
+import cl.entel.eai.exception.NoDataToReceiveException;
 import cl.entel.eai.exception.PipelineException;
 import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.configuration.pipeline.XygoAddressDAOConfiguration;
@@ -42,7 +42,7 @@ public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressD
     private boolean cleanGeometryTable;
 
     @Override
-    public void executePipeline() throws PipelineException {
+    public void executePipeline() throws PipelineException, NoDataToReceiveException {
 
         // Transformer
         Transformer<Void, List<XygoAddress>, List<XygoAddress>> transformer = new XygoAdressValidatorTransformer();
@@ -56,13 +56,15 @@ public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressD
                 .addHandler(transformer)
                 .addHandler(writer)
                 .execute();
+
+        this.getReader().getConfiguration().setChunkSize(writer.getOutputRecords());
     }
 
     public void closeConnection() throws PipelineException {
         try {
             logger.info("Cerrando conexiones...");
             this.getReader().getConfiguration().getDao().closeConnection();
-        } catch (IMGISException e) {
+        } catch (DAOException e) {
             throw new PipelineException(PipelineError.ERROR_PIPELINE_DB_CLOSE_CONNECTION, e.getMessage());
         }
     }
@@ -74,33 +76,32 @@ public class XygoAddressDAOPipelineRunner extends DAOPipelineRunner<XygoAddressD
 
     @Override
     public void onAfterInit(DAOConfiguration<XygoAddressDAO> configuration) throws PipelineException {
-        logger.info(String.format("Cantidad de registros ha ser cargados: %d", configuration.getTotalRecords()));
-
         if (this.cleanGeometryTable) {
             try {
                 logger.info("Eliminando registros de la tabla geométrica antes de continuar...");
                 configuration.getDao().cleanGeometryTable();
                 logger.info("Eliminación completada...");
-            } catch (IMGISException e) {
+            } catch (DAOException e) {
                 throw new PipelineException(PipelineError.ERROR_PIPELINE_ON_AFTER_INIT, e.getMessage());
             }
         }
     }
 
     @Override
-    public void onBeforePipelineExecuting(long chunkSize, long offset, long total) throws PipelineException {
-        logger.info(String.format("Procesando %d registros...", chunkSize));
+    public void onBeforePipelineExecuting(long chunkSize, long offset) throws PipelineException {
+        logger.info("Procesando registros...");
     }
 
     @Override
-    public void onAfterPipelineExecuting(long chunkSize, long offset, long total) throws PipelineException {
-        logger.info(String.format("Lote de registros cargados: %d / %d", offset, total));
+    public void onAfterPipelineExecuting(long chunkSize, long offset) throws PipelineException {
+        logger.info(String.format("Lote de registros cargados: %d ", offset));
     }
 
     @Override
-    public void onFinishPipelineExecuting(long offset, long total) throws PipelineException {
+    public void onFinishPipelineExecuting(long offset) throws PipelineException {
         logger.info("Finalizando carga de Direcciones...");
         this.closeConnection();
-        logger.info(String.format("REGISTROS CARGADOS CORRECTAMENTE: %d", total));
+        logger.info("REGISTROS CARGADOS CORRECTAMENTE");
+        logger.info(String.format("TOTAL DE REGISTROS CARGADOS: %d", offset));
     }
 }

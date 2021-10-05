@@ -1,8 +1,9 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.IMGISDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.model.TerminalEnclosure;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
@@ -24,8 +25,8 @@ public class TerminalEnclosureDAO {
     @Autowired
     private IMGISDatabaseConnector imgisConnector;
 
-    public List<TerminalEnclosure> getTerminalEnclosureChuck (long offset, int chunkSize) throws IMGISException {
-        PreparedStatement statement;
+    public List<TerminalEnclosure> getTerminalEnclosureChuck (long offset, int chunkSize) throws DAOException {
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<TerminalEnclosure> result = new ArrayList<>();
         String sql;
@@ -51,44 +52,18 @@ public class TerminalEnclosureDAO {
                 result.add(terminalEnclosure);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
-    public Integer getRecordCount() throws IMGISException{
-        PreparedStatement statement;
-        ResultSet resultSet;
-        Integer result = null;
-        String sql;
-
-        try {
-            if (!this.imgisConnector.isConnected()) {
-                this.imgisConnector.connect();
-            }
-            sql = "SELECT COUNT(*) " +
-                    "FROM MIT_TERMINAL_ENCLOSURE ";
-
-            statement = this.imgisConnector.getConnection().prepareStatement(sql);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
-        } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
-        }
-
-        return result;
-    }
-
-    public void createGeoTerminalEnclosure(List<TerminalEnclosure> terminalEnclosures) throws IMGISException{
-        PreparedStatement statement;
+    public void createGeoTerminalEnclosure(List<TerminalEnclosure> terminalEnclosures) throws DAOException {
+        PreparedStatement statement = null;
         String sql;
 
         try {
@@ -106,13 +81,15 @@ public class TerminalEnclosureDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
-    public void closeConnection() throws IMGISException{
+    public void closeConnection() throws DAOException {
         if(this.imgisConnector != null){
             if(this.imgisConnector.isConnected()) {
                 this.imgisConnector.closeConnection();
@@ -120,20 +97,22 @@ public class TerminalEnclosureDAO {
         }
     }
 
-    public void cleanGeometryTable() throws IMGISException{
-        PreparedStatement statement;
+    public void cleanGeometryTable() throws DAOException {
+        PreparedStatement statement = null;
         String sql;
         try {
             this.imgisConnector.connect();
-            sql = "DELETE FROM GEO_MIT_TERMINAL_ENCLOSURE";
+            sql = "TRUNCATE TABLE GEO_MIT_TERMINAL_ENCLOSURE";
 
             statement = this.imgisConnector.getConnection().prepareStatement(sql);
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }

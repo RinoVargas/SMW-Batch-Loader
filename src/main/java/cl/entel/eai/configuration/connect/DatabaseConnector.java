@@ -1,7 +1,7 @@
 package cl.entel.eai.configuration.connect;
 
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import oracle.jdbc.pool.OracleDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public abstract class DatabaseConnector {
         return this.connection != null;
     }
 
-    public void connect() throws IMGISException{
+    public void connect() throws DAOException {
 
         if (!this.isConnected()) {
             try {
@@ -41,32 +41,38 @@ public abstract class DatabaseConnector {
                 this.connection = dataSource.getConnection();
 
             } catch (SQLException e) {
-                throw new IMGISException(DAOError.ERROR_DB_NOT_CONNECTED, e.getMessage());
+                throw new DAOException(DAOError.ERROR_DB_NOT_CONNECTED, e.getMessage());
             }
         }
     }
 
-    public void close(Statement statement) throws IMGISException {
+    public void close(Statement statement) throws DAOException {
         try {
             closeConnection();
             if (statement != null) {
                 statement.close();
             }
         } catch (SQLException e){
-            throw new IMGISException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
         } catch (Exception e){
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
-    public void closeConnection() throws IMGISException {
+    public void closeConnection() throws DAOException {
         try {
             this.connection.close();
             this.connection = null;
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNAVAILABLE_DISCONNECTION, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        }
+    }
+
+    public static void releaseResources(Statement statement) {
+        if (statement != null) {
+            try { statement.close(); } catch (SQLException ignore) { };
         }
     }
 }

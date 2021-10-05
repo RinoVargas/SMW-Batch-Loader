@@ -1,8 +1,9 @@
 package cl.entel.eai.dao;
 
+import cl.entel.eai.configuration.connect.DatabaseConnector;
 import cl.entel.eai.configuration.connect.FACTUNIFDatabaseConnector;
 import cl.entel.eai.constants.DAOError;
-import cl.entel.eai.exception.IMGISException;
+import cl.entel.eai.exception.DAOException;
 import cl.entel.eai.model.XygoAddress;
 import cl.entel.eai.util.GeometryUtil;
 import oracle.spatial.geometry.JGeometry;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class XygoAddressDAO {
     @Autowired
     private FACTUNIFDatabaseConnector factunifConnector;
 
-    public List<XygoAddress> getXygoAddressChuck (long offset, int chunkSize) throws IMGISException {
-        PreparedStatement statement;
+    public List<XygoAddress> getXygoAddressChuck (long offset, int chunkSize) throws DAOException {
+        PreparedStatement statement = null;
         ResultSet resultSet;
         List<XygoAddress> result = new ArrayList<>();
         String sql;
@@ -55,44 +57,18 @@ public class XygoAddressDAO {
                 result.add(xygoAddress);
             }
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
 
         return result;
     }
 
-    public Integer getRecordCount() throws IMGISException{
-        PreparedStatement statement;
-        ResultSet resultSet;
-        Integer result = null;
-        String sql;
-
-        try {
-            if (!this.factunifConnector.isConnected()) {
-                this.factunifConnector.connect();
-            }
-            sql = "SELECT COUNT(*) " +
-                    "FROM FU_XYGO ";
-
-            statement = this.factunifConnector.getConnection().prepareStatement(sql);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
-        } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
-        }
-
-        return result;
-    }
-
-    public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws IMGISException{
-        PreparedStatement statement;
+    public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws DAOException {
+        PreparedStatement statement = null;
         String sql;
         try {
 
@@ -109,13 +85,15 @@ public class XygoAddressDAO {
 
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 
-    public void closeConnection() throws IMGISException{
+    public void closeConnection() throws DAOException {
         if(this.factunifConnector != null){
             if(this.factunifConnector.isConnected()) {
                 this.factunifConnector.closeConnection();
@@ -123,20 +101,22 @@ public class XygoAddressDAO {
         }
     }
 
-    public void cleanGeometryTable() throws IMGISException{
-        PreparedStatement statement;
+    public void cleanGeometryTable() throws DAOException {
+        PreparedStatement statement = null;
         String sql;
         try {
             this.factunifConnector.connect();
-            sql = "DELETE FROM FU_GEO_XYGO";
+            sql = "TRUNCATE TABLE FU_GEO_XYGO";
 
             statement = this.factunifConnector.getConnection().prepareStatement(sql);
             statement.execute();
 
         } catch (SQLException e) {
-            throw new IMGISException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new IMGISException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
+        } finally {
+            DatabaseConnector.releaseResources(statement);
         }
     }
 }
