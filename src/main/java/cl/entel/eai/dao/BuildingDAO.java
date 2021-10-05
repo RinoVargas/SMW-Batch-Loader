@@ -59,36 +59,6 @@ public class BuildingDAO {
         return result;
     }
 
-    public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement= null;
-        ResultSet resultSet;
-        Integer result = null;
-        String sql;
-
-        try {
-            if (!this.imgisConnector.isConnected()) {
-                this.imgisConnector.connect();
-            }
-            sql = "SELECT COUNT(*) " +
-                    "FROM BUILDING ";
-
-            statement = this.imgisConnector.getConnection().prepareStatement(sql);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
-        } catch (Exception e) {
-            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
-        } finally {
-            DatabaseConnector.releaseResources(statement);
-        }
-
-        return result;
-    }
-
     public void createGeoBuilding(List<Building> buildings) throws DAOException {
         PreparedStatement statement = null;
         String sql;
@@ -127,7 +97,7 @@ public class BuildingDAO {
         String sql;
         try {
             this.imgisConnector.connect();
-            sql = "DELETE FROM GEO_BUILDING";
+            sql = "TRUNCATE TABLE GEO_BUILDING";
 
             statement = this.imgisConnector.getConnection().prepareStatement(sql);
             statement.execute();

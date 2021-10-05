@@ -67,36 +67,6 @@ public class XygoAddressDAO {
         return result;
     }
 
-    public Integer getRecordCount() throws DAOException {
-        PreparedStatement statement = null;
-        ResultSet resultSet;
-        Integer result = null;
-        String sql;
-
-        try {
-            if (!this.factunifConnector.isConnected()) {
-                this.factunifConnector.connect();
-            }
-            sql = "SELECT COUNT(*) " +
-                    "FROM FU_XYGO ";
-
-            statement = this.factunifConnector.getConnection().prepareStatement(sql);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(DAOError.ERROR_DB_UNKNOWN_ERROR, e.getMessage());
-        } catch (Exception e) {
-            throw new DAOException(DAOError.ERROR_UNKNOWN_ERROR, e.getMessage());
-        } finally {
-            DatabaseConnector.releaseResources(statement);
-        }
-
-        return result;
-    }
-
     public void createGeoXygoAddress(List<XygoAddress> xygoAddresses) throws DAOException {
         PreparedStatement statement = null;
         String sql;
@@ -136,7 +106,7 @@ public class XygoAddressDAO {
         String sql;
         try {
             this.factunifConnector.connect();
-            sql = "DELETE FROM FU_GEO_XYGO";
+            sql = "TRUNCATE TABLE FU_GEO_XYGO";
 
             statement = this.factunifConnector.getConnection().prepareStatement(sql);
             statement.execute();
