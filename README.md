@@ -22,11 +22,18 @@ Aplicativo para la actualización de las tablas geométricas de IMGIS (Terminal 
 ##### Clonar el proyecto desde Github.
 ```bash
 git clone https://github.com/RinoVargas/smw-batch-loader.git
-cd smw-batch-loader
 ```
 <br>
 
 ##### Construir el proyecto
+* Instalar dependencias:
+```bash
+cd smw-batch-loader
+mvn install:install-file -Dfile="lib/ojdbc-7.jar" -DgroupId="com.oracle" -DartifactId="ojdbc7" -Dversion="7" -Dpackaging="jar"
+mvn install:install-file -Dfile="lib/sdoapi-10.2.0.1.0.jar" -DgroupId="com.oracle" -DartifactId="sdoapi" -Dversion="10.2.0.1.0" -Dpackaging="jar"
+```
+
+* Construir aplicativo:
 ```bash
 mvn clean verify
 ```
