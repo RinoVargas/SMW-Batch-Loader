@@ -79,6 +79,8 @@
 								<copy file="${project.build.directory}/${app.name}.jar" toFile="${destination.dir}/${app.name}.jar" />
 								<echo message="Generate property file..." />
 								<copy file="${basedir}/${app.name}.properties.sample" toFile="${destination.dir}/${app.name}.properties" />
+								<echo message="Create Log directory" />
+								<mkdir dir="${destination.dir}/logs" />
 							</target>
 						</configuration>
 						<goals>
