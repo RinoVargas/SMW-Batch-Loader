@@ -15,6 +15,8 @@
 	<properties>
 		<start-class>cl.entel.eai.SmwBatchLoaderApplication</start-class>
 		<java.version>1.8</java.version>
+		<app.name>smw-batch-loader</app.name>
+		<destination.dir>${basedir}/dist</destination.dir>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -48,8 +50,43 @@
 	</dependencies>
 
 	<build>
-		<finalName>${artifactId}</finalName>
+		<finalName>${app.name}</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>generate-dist-dir</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<echo message="Remove old destination directory..." />
+								<delete dir="${destination.dir}" failonerror="false"/>
+								<echo message="Create distribution directory..." />
+								<mkdir dir="${destination.dir}" />
+								<echo message="Generate startup script..." />
+								<copy file="${basedir}/smw-batch-loader.sh" tofile="${destination.dir}/smw-batch-loader.sh">
+									<filterset>
+										<filter token="APP_HOME" value="${destination.dir}"/>
+										<filter token="JAVA_HOME" value="${java.home}"/>
+									</filterset>
+								</copy>
+								<echo message="Asign permissions to startup file..." />
+								<chmod file="${destination.dir}/smw-batch-loader.sh" perm="755"/>
+								<echo message="Copy JAR file..." />
+								<copy file="${project.build.directory}/${app.name}.jar" toFile="${destination.dir}/${app.name}.jar" />
+								<echo message="Generate property file..." />
+								<copy file="${basedir}/${app.name}.properties.sample" toFile="${destination.dir}/${app.name}.properties" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
