@@ -59,7 +59,7 @@
 				<executions>
 					<execution>
 						<id>generate-dist-dir</id>
-						<phase>package</phase>
+						<phase>verify</phase>
 						<configuration>
 							<target>
 								<echo message="Remove old destination directory..." />
